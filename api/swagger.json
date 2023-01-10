@@ -1,0 +1,942 @@
+{
+	"openapi": "3.0.0",
+	"info": {
+		"title": "ModalGR Bike",
+		"description": "Documentação do sistema ModalGR Bike",
+		"version": "1.0.0"
+	},
+	"basePath": "/",
+	"components": {
+		"securitySchemes": {
+			"baererAuth": {
+				"type": "http",
+				"scheme": "bearer",
+				"bearerFormat": "JWT"
+			}
+		},
+		"schemas": {
+			"colaboradores": {
+				"type": "Object",
+				"properties": {
+					"nome": {
+						"type": "string"
+					},
+					"email": {
+						"type": "string"
+					},
+					"senha": {
+						"type": "string"
+					},
+					"data_registro": {
+						"type": "string"
+					},
+					"ativo": {
+						"type": "boolean"
+					},
+					"nivel_id": {
+						"type": "integer"
+					}
+				}
+			},
+			"niveis": {
+				"type": "Object",
+				"properties": {
+					"nivel": {
+						"type": "string"
+					}
+				}
+			},
+			"login": {
+				"type": "Object",
+				"properties": {
+					"email": {
+						"type": "string"
+					},
+					"senha": {
+						"type": "string"
+					}
+				}
+			},
+			"lancamentos": {
+				"type": "Object",
+				"properties": {
+					"km": {
+						"type": "number"
+					},
+					"tempo": {
+						"type": "number"
+					},
+					"colaborador_id": {
+						"type": "integer"
+					},
+					"bicicleta_id": {
+						"type": "integer"
+					}
+				}
+			},
+			"bicicletas": {
+				"type": "Object",
+				"properties": {
+					"numero": {
+						"type": "number"
+					},
+					"colaborador_id": {
+						"type": "integer"
+					},
+					"status": {
+						"type": "boolean"
+					}
+				}
+			}
+		}
+	},
+	"paths": {
+		"/niveis": {
+			"get": {
+				"description": "Rota que busca níveis.",
+				"sumary": "Busca de níveis.",
+				"tags": [
+					"niveis"
+				],
+				"security": [
+					{
+						"baererAuth": []
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Ok"
+					},
+					"401": {
+						"description": "Usuário não possui permissão."
+					},
+					"500": {}
+				}
+			},
+			"post": {
+				"description": "Rota que cria nível.",
+				"sumary": "Criar nível.",
+				"tags": [
+					"niveis"
+				],
+				"security": [
+					{
+						"baererAuth": []
+					}
+				],
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": {
+								"ref": "#/components/schemas/niveis",
+								"type": "object",
+								"properties": {
+									"nivel": {
+										"type": "string"
+									}
+								},
+								"example": {
+									"nivel": "Administrador"
+								}
+							}
+						}
+					}
+				},
+				"responses": {
+					"200": {},
+					"401": {},
+					"500": {}
+				}
+			}
+		},
+		"/niveis/:id": {
+			"get": {
+				"description": "Rota que busca nível por ID.",
+				"sumary": "Busca de nível por ID.",
+				"tags": [
+					"niveis"
+				],
+				"security": [
+					{
+						"baererAuth": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "params",
+						"id": "id",
+						"type": "number",
+						"required": true
+					}
+				],
+				"responses": {
+					"200": {},
+					"401": {
+						"description": "Usuário não possui permissão."
+					},
+					"500": {}
+				}
+			},
+			"put": {
+				"description": "Rota que atualiza nível.",
+				"sumary": "Atualizar nível.",
+				"tags": [
+					"niveis"
+				],
+				"security": [
+					{
+						"baererAuth": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "params",
+						"id": "id",
+						"type": "number",
+						"required": true
+					}
+				],
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": {
+								"ref": "#/components/schemas/niveis",
+								"type": "object",
+								"properties": {
+									"nivel": {
+										"type": "string"
+									}
+								},
+								"example": {
+									"nivel": "Administrador"
+								}
+							}
+						}
+					}
+				},
+				"responses": {
+					"200": {},
+					"401": {},
+					"500": {}
+				}
+			},
+			"delete": {
+				"description": "Rota que deleta o nível.",
+				"sumary": "Deletar Nível.",
+				"tags": [
+					"niveis"
+				],
+				"security": [
+					{
+						"baererAuth": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "params",
+						"id": "id",
+						"type": "number",
+						"required": true
+					}
+				],
+				"responses": {
+					"200": {},
+					"401": {
+						"description": "Usuário não possui permissão."
+					},
+					"500": {}
+				}
+			}
+		},
+		"/colaboradores": {
+			"get": {
+				"description": "Rota que localiza os colaboradores.",
+				"sumary": "Busca de colaboradores.",
+				"tags": [
+					"colaboradores"
+				],
+				"security": [
+					{
+						"baererAuth": []
+					}
+				],
+				"responses": {
+					"200": {},
+					"401": {
+						"description": "Usuário não possui permissão."
+					},
+					"500": {}
+				}
+			},
+			"post": {
+				"description": "Rota que insere colaborador.",
+				"sumary": "Cria colaborador.",
+				"tags": [
+					"colaboradores"
+				],
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": {
+								"ref": "#/components/schemas/colaboradores",
+								"type": "object",
+								"properties": {
+									"nome": {
+										"type": "string"
+									},
+									"email": {
+										"type": "string"
+									},
+									"senha": {
+										"type": "string"
+									},
+									"data_registro": {
+										"type": "string"
+									},
+									"ativo": {
+										"type": "boolean"
+									},
+									"nivel_id": {
+										"type": "integer"
+									}
+								},
+								"example": {
+									"nome": "Rodrigo Basso",
+									"email": "rodrigo.lopes@modalgr.com.br",
+									"senha": "12345678",
+									"data_registro": "2012-12-13",
+									"ativo": true,
+									"nivel_id": 2
+								}
+							}
+						}
+					}
+				},
+				"responses": {
+					"200": {},
+					"400": {
+						"description": "Email Já Cadastrado no sistema."
+					},
+					"401": {
+						"description": "Usuário não possui permissão."
+					},
+					"500": {}
+				}
+			}
+		},
+		"/colaboradores/:id": {
+			"get": {
+				"description": "Rota localiza colaborador por id.",
+				"sumary": "Localiza usuário por id.",
+				"tags": [
+					"colaboradores"
+				],
+				"security": [
+					{
+						"baererAuth": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "params",
+						"id": "id",
+						"type": "number",
+						"required": true
+					}
+				],
+				"responses": {
+					"200": {},
+					"401": {
+						"description": "Usuário não possui permissão."
+					},
+					"500": {}
+				}
+			}
+		},
+		"/login": {
+			"post": {
+				"description": "Rota que realiza o login.",
+				"sumary": "Colabor Logado",
+				"tags": [
+					"login"
+				],
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": {
+								"ref": "#/components/schemas/login",
+								"type": "object",
+								"properties": {
+									"email": {
+										"type": "string"
+									},
+									"senha": {
+										"type": "string"
+									}
+								},
+								"example": {
+									"email": "rodrigo.lopes@modalgr.com.br",
+									"senha": "12345678"
+								}
+							}
+						}
+					}
+				},
+				"responses": {
+					"200": {
+						"description": "Colaborador(a) logado."
+					},
+					"400": {
+						"description": "Email ou senha Inválidos."
+					},
+					"401": {
+						"description": "Usuário não possui permissão."
+					},
+					"500": {
+						"description": "Erro no servidor!"
+					}
+				}
+			}
+		},
+		"/colaborador/:id": {
+			"put": {
+				"description": "Rota que atualiza colaborador.",
+				"sumary": "Atualiza colaborador",
+				"tags": [
+					"colaboradores"
+				],
+				"security": [
+					{
+						"baererAuth": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "params",
+						"id": "id",
+						"type": "number",
+						"required": true
+					}
+				],
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": {
+								"ref": "#/components/schemas/colaboradores",
+								"type": "object",
+								"properties": {
+									"nome": {
+										"type": "string"
+									},
+									"email": {
+										"type": "string"
+									},
+									"senha": {
+										"type": "string"
+									},
+									"data_registro": {
+										"type": "string"
+									},
+									"ativo": {
+										"type": "boolean"
+									},
+									"nivel_id": {
+										"type": "integer"
+									}
+								},
+								"example": {
+									"nome": "Rodrigo Basso",
+									"email": "rodrigo.lopes@modalgr.com.br",
+									"senha": "1234",
+									"data_registro": "2012-12-13",
+									"ativo": true,
+									"nivel_id": 2,
+									"numberoBike": 2331
+								}
+							}
+						}
+					}
+				},
+				"responses": {
+					"200": {},
+					"400": {},
+					"401": {
+						"description": "Usuário não possui permissão."
+					},
+					"500": {}
+				}
+			}
+		},
+		"/colaborador/:colaboradorId": {
+			"delete": {
+				"description": "Rota que deleta o colaborador.",
+				"sumary": "Deletar colaborador.",
+				"tags": [
+					"colaboradores"
+				],
+				"security": [
+					{
+						"baererAuth": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "params",
+						"id": "id",
+						"type": "number",
+						"required": true
+					}
+				],
+				"responses": {
+					"200": {},
+					"401": {
+						"description": "Usuário não possui permissão."
+					},
+					"500": {}
+				}
+			}
+		},
+		"/lancamentos": {
+			"get": {
+				"description": "Rota que busca todos os lançamentos.",
+				"sumary": "Busca lancamentos.",
+				"tags": [
+					"lancamentos"
+				],
+				"security": [
+					{
+						"baererAuth": []
+					}
+				],
+				"responses": {
+					"200": {},
+					"401": {
+						"description": "Usuário não possui permissão."
+					},
+					"500": {}
+				}
+			},
+			"post": {
+				"description": "Rota que cria o lançamento.",
+				"sumary": "Cria Lançamento",
+				"tags": [
+					"lancamentos"
+				],
+				"security": [
+					{
+						"baererAuth": []
+					}
+				],
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": {
+								"ref": "#/components/schemas/lancamentos",
+								"type": "object",
+								"properties": {
+									"km": {
+										"type": "number"
+									},
+									"tempo": {
+										"type": "number"
+									},
+									"colaborador_id": {
+										"type": "integer"
+									},
+									"bicicleta_id": {
+										"type": "integer"
+									}
+								},
+								"example": {
+									"km": 2,
+									"tempo": 0.2,
+									"colaborador_id": 7,
+									"bicicleta_id": 4
+								}
+							}
+						}
+					}
+				},
+				"responses": {
+					"200": {},
+					"401": {
+						"description": "Usuário não possui permissão."
+					},
+					"500": {}
+				}
+			}
+		},
+		"/lancamentos/:id": {
+			"get": {
+				"description": "Rota que busca um lançamento.",
+				"sumary": "Busca um lançamento.",
+				"tags": [
+					"lancamentos"
+				],
+				"security": [
+					{
+						"baererAuth": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "params",
+						"id": "id",
+						"type": "number",
+						"required": true
+					}
+				],
+				"responses": {
+					"200": {},
+					"401": {
+						"description": "Usuário não possui permissão."
+					},
+					"500": {}
+				}
+			},
+			"put": {
+				"description": "Rota que atualiza um lançamento.",
+				"sumary": "Atualiza um lançamento.",
+				"tags": [
+					"lancamentos"
+				],
+				"security": [
+					{
+						"baererAuth": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "params",
+						"id": "id",
+						"type": "number",
+						"required": true
+					}
+				],
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": {
+								"type": "object",
+								"properties": {
+									"km": {
+										"type": "number"
+									},
+									"tempo": {
+										"type": "number"
+									},
+									"colaborador_id": {
+										"type": "integer"
+									},
+									"bicicleta_id": {
+										"type": "integer"
+									}
+								},
+								"example": {
+									"km": 2,
+									"tempo": 0.2,
+									"colaborador_id": 7,
+									"bicicleta_id": 4
+								}
+							}
+						}
+					}
+				},
+				"responses": {
+					"200": {},
+					"401": {
+						"description": "Usuário não possui permissão."
+					},
+					"500": {}
+				}
+			},
+			"delete": {
+				"description": "Rota que deleta lançamento.",
+				"sumary": "Deleta lançamento.",
+				"tags": [
+					"lancamentos"
+				],
+				"security": [
+					{
+						"baererAuth": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "params",
+						"id": "id",
+						"type": "number",
+						"required": true
+					}
+				],
+				"responses": {
+					"200": {},
+					"401": {
+						"description": "Usuário não possui permissão."
+					},
+					"500": {}
+				}
+			}
+		},
+		"/lancamento/:colaborador_id": {
+			"get": {
+				"description": "Rota que busca um lançamento pelo colaborador.",
+				"sumary": "Busca um lançamento por colaborador.",
+				"tags": [
+					"lancamentos"
+				],
+				"security": [
+					{
+						"baererAuth": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "params",
+						"id": "id",
+						"type": "number",
+						"required": true
+					}
+				],
+				"responses": {
+					"200": {},
+					"401": {
+						"description": "Usuário não possui permissão."
+					},
+					"500": {}
+				}
+			}
+		},
+		"/bicicletas": {
+			"get": {
+				"description": "Rota que localiza as bicicletas.",
+				"sumary": "Busca da bicicletas.",
+				"tags": [
+					"bicicletas"
+				],
+				"security": [
+					{
+						"baererAuth": []
+					}
+				],
+				"responses": {
+					"200": {},
+					"401": {
+						"description": "Usuário não possui permissão."
+					},
+					"500": {}
+				}
+			},
+			"post": {
+				"description": "Rota que insere uma bicicleta.",
+				"sumary": "Cria bicicleta.",
+				"tags": [
+					"bicicletas"
+				],
+				"security": [
+					{
+						"baererAuth": []
+					}
+				],
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": {
+								"ref": "#/components/schemas/bicicletas",
+								"type": "object",
+								"properties": {
+									"numero": {
+										"type": "integer"
+									},
+									"colaborador_id": {
+										"type": "integer"
+									},
+									"status": {
+										"type": "boolean"
+									}
+								},
+								"example": {
+									"numero": "6858",
+									"colaborador_id": "2",
+									"status": true
+								}
+							}
+						}
+					}
+				},
+				"responses": {
+					"200": {},
+					"400": {
+						"description": "Número de Bicicleta Já Cadastrada no sistema."
+					},
+					"401": {
+						"description": "Usuário não possui permissão."
+					},
+					"500": {}
+				}
+			}
+		},
+		"/bicicletas/:id": {
+			"get": {
+				"description": "Rota localiza bicicleta por id.",
+				"sumary": "Localiza bicicleta por id.",
+				"tags": [
+					"bicicletas"
+				],
+				"security": [
+					{
+						"baererAuth": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "params",
+						"id": "id",
+						"type": "number",
+						"required": true
+					}
+				],
+				"responses": {
+					"200": {},
+					"401": {
+						"description": "Usuário não possui permissão."
+					},
+					"500": {}
+				}
+			}
+		},
+		"/bicicleta/:id": {
+			"put": {
+				"description": "Rota que atualiza bicicleta.",
+				"sumary": "Atualiza bicicleta",
+				"tags": [
+					"bicicletas"
+				],
+				"security": [
+					{
+						"baererAuth": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "params",
+						"id": "id",
+						"type": "number",
+						"required": true
+					}
+				],
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": {
+								"ref": "#/components/schemas/bicicletas",
+								"type": "object",
+								"properties": {
+									"numero": {
+										"type": "number"
+									},
+									"colaborador_id": {
+										"type": "number"
+									},
+									"status": {
+										"type": "boolean"
+									}
+								},
+								"example": {
+									"numero": 6858,
+									"colaborador_id": 2,
+									"status": 1
+								}
+							}
+						}
+					}
+				},
+				"responses": {
+					"200": {},
+					"400": {},
+					"401": {
+						"description": "Usuário não possui permissão."
+					},
+					"500": {}
+				}
+			}
+		},
+		"/bicicleta/:bicicletaId": {
+			"delete": {
+				"description": "Rota que deleta a bicicleta.",
+				"sumary": "Deletar bicicleta.",
+				"tags": [
+					"bicicletas"
+				],
+				"security": [
+					{
+						"baererAuth": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "params",
+						"id": "id",
+						"type": "number",
+						"required": true
+					}
+				],
+				"responses": {
+					"200": {},
+					"401": {
+						"description": "Usuário não possui permissão."
+					},
+					"500": {}
+				}
+			}
+		},
+		"/liberar/:id": {
+			"put": {
+				"description": "Rota que atualiza nível do colaborador.",
+				"sumary": "Atualiza nível colaborador",
+				"tags": [
+					"colaboradores"
+				],
+				"security": [
+					{
+						"baererAuth": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "params",
+						"id": "id",
+						"type": "number",
+						"required": true
+					}
+				],
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": {
+								"ref": "#/components/schemas/colaboradores",
+								"type": "object",
+								"properties": {
+									"nivel_id": {
+										"type": "integer"
+									}
+								},
+								"example": {
+									"nivel_id": 2
+								}
+							}
+						}
+					}
+				},
+				"responses": {
+					"200": {},
+					"400": {},
+					"401": {
+						"description": "Usuário não possui permissão."
+					},
+					"500": {}
+				}
+			}
+		}
+	}
+}
