@@ -20,7 +20,7 @@ module.exports = {
 				mensagem: `Falta o token`
 			})
 		}
-		if (isJwtExpired(token) === true) {
+		if (isJwtExpired(token) === false) {
 			try {
 				const payload = jwt.verify(token, secret.secret)
 				const { id } = payload
