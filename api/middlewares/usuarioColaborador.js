@@ -54,9 +54,9 @@ module.exports = {
 
                 }
             } catch (error) {
-                if (typeof token !== 'string') {
-                    throw new InvalidTokenError('Invalid token specified');
-                }
+                // if (typeof token !== 'string') {
+                //     throw new InvalidTokenError('Invalid token specified');
+                // }
                 return res.status(400).json({
                     mensagem: `Token Inválido`
                 })
