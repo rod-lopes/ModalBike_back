@@ -20,7 +20,7 @@ module.exports = {
 				mensagem: `Falta o Token.`
 			})
 		}
-		if (isJwtExpired(token) === false) {
+		//if (isJwtExpired(token) === false) {
 			try {
 				const payload = jwt.verify(token, secret.secret)
 				const { id } = payload
@@ -56,10 +56,10 @@ module.exports = {
 				})
 			}
 			next()
-		} else {
-			return res.status(400).json({
-				mensagem: `Token Expirado.`
-			})
-		}
+		// } else {
+		// 	return res.status(400).json({
+		// 		mensagem: `Token Expirado.`
+		// 	})
+		// }
 	}
 }
