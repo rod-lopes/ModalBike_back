@@ -24,6 +24,7 @@ module.exports = {
 			try {
 				const payload = jwt.verify(token, secret.secret)
 				const { id } = payload
+				console.log(payload)
 
 				let colaborador = await database.colaboradores.findOne({
 					where: {
