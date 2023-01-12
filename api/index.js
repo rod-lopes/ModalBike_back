@@ -5,13 +5,13 @@ const routes = require("./routes");
 const cors = require("cors")
 const multer = require("multer");
 const path = require("path");
-const { PORT } = require("./config/config")
 
 const swaggerUI = require('swagger-ui-express');
 const swaggerDocument = require('./swagger.json')
 
+
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 3000;
 
 app.use(cors({
 	origin: '*',
@@ -42,6 +42,6 @@ app.post("/upload", upload.single("file"), (req, res) => {
 
 app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(swaggerDocument));
 
-app.listen(PORT || port, () => console.log(`O servidor está rodando na porta ${PORT}\n`));
+app.listen(port, () => console.log(`O servidor está rodando na porta ${port}\n`));
 
 module.exports = app;
