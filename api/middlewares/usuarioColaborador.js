@@ -22,7 +22,8 @@ module.exports = {
                 mensagem: `Falta o Token.`
             })
         }
-        console.log(token);
+        console.log(`Token: ${token}`);
+        console.log()
         if (token) {
             try {
                 const payload = jwt.verify(token, secret.secret)
