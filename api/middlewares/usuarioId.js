@@ -23,6 +23,7 @@ module.exports = {
             })
         }
         if (isJwtExpired(token) === false) {
+            console.log(isJwtExpired(token))
             try {
                 const payload = jwt.verify(token, secret.secret)
                 const { id } = payload
