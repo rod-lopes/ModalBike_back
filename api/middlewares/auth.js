@@ -20,11 +20,10 @@ module.exports = {
 				mensagem: `Falta o token`
 			})
 		}
-		//if (isJwtExpired(token) === false) {
+		if (isJwtExpired(token) === false) {
 			try {
 				const payload = jwt.verify(token, secret.secret)
 				const { id } = payload
-				console.log(payload)
 
 				let colaborador = await database.colaboradores.findOne({
 					where: {
@@ -48,19 +47,20 @@ module.exports = {
 						mensagem: `Colaborador não possui permissão.`
 					})
 				}
+				next()
 			} catch (error) {
-				// if (typeof token !== 'string') {
-				// 	throw new InvalidTokenError('Invalid token specified');
-				// }
+				if (typeof token !== 'string') {
+					throw new InvalidTokenError('Invalid token specified');
+				}
 				return res.status(400).json({
 					mensagem: `Token Inválido`
 				})
 			}
-			next()
-		// } else {
-		// 	return res.status(400).json({
-		// 		mensagem: `Token Expirado.`
-		// 	})
-		// }
+
+		} else {
+			return res.status(400).json({
+				mensagem: `Token Expirado.`
+			})
+		}
 	}
 }
