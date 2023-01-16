@@ -252,12 +252,12 @@ class ColaboradorController {
 			let token = jwt.sign({ id: colaborador.id }, secret.secret, {
 				//expiresIn: 600 // Token expira em 10min
 				//expiresIn: '1h' // Token expira em 1 hora
-				expiresIn: '8h' // Token expira em 1 minuto
+				expiresIn: '1h' // Token expira em 1 minuto
 			})
 
 			let tokendados = jwt.sign(colaborador, secret.secret, {
 				//expiresIn: 600 // Token expira em 10min
-				expiresIn: '8h'// Token expira em 1 hora
+				expiresIn: '1h'// Token expira em 1 hora
 			})
 
 			return res.status(200).json({
