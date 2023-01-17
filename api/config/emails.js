@@ -3,8 +3,6 @@ const nodemailer = require('nodemailer');
 const user = process.env.ADMIN_EMAIL;
 const password = process.env.ADMIN_PASSWORD;
 
-const cc = process.env.ADMIN_EMAIL_CC;
-
 
 async function enviaEmail(novoColaboradorCriado) {
     const transportador = nodemailer.createTransport({
@@ -20,7 +18,6 @@ async function enviaEmail(novoColaboradorCriado) {
 
     const info = await transportador.sendMail({
         from: `"BikeGR"<${user}>`,
-        cc: `"BikeGR"<${cc}>`,
         to: novoColaboradorCriado.email,
         subject: 'Seja Bem Vindo ao Sistema BikeGR!',
         text: "Olá! Seja Bem vindo!",
@@ -47,7 +44,6 @@ async function emailLiberacao(colaboradorLiberado) {
 
     const info = await transportador.sendMail({
         from: `"BikeGR" <${user}>`,
-        cc: `"BikeGR" <${cc}>`,
         to: colaboradorLiberado.email,
         subject: 'O seu acesso ao sistema BikeGR está liberado.',
         text: "Olá! Bicicleta Liberada!",
